@@ -87,5 +87,13 @@ async def xkcd(ctx):
             data = io.BytesIO(await resp.read())
             await ctx.channel.send(file=File(data, 'xkcd.png'))
 
+
+
+@bot.command()
+async def ban(ctx, member: Member):
+    await ctx.guild.ban(member)
+    await ctx.send(f"{member.display_name} has been muted")
+
+
 token = os.getenv("TOKEN_BOT")
 bot.run(token)  # Starts the bot
