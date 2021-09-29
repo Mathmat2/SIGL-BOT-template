@@ -7,8 +7,6 @@ from discord.permissions import Permissions
 from dotenv import load_dotenv
 import urllib.request
 import random
-import io
-import aiohttp
 import json
 
 load_dotenv()
@@ -80,12 +78,7 @@ async def mute(ctx, member: Member):
 async def xkcd(ctx):
     response = urllib.request.urlopen(f"https://xkcd.com/{random.randint(1, 2521)}/info.0.json")
     comic = json.load(response)
-    async with aiohttp.ClientSession() as session:
-        async with session.get(comic["img"]) as resp:
-            if resp.status != 200:
-                return await ctx.channel.send('Could not download file...')
-            data = io.BytesIO(await resp.read())
-            await ctx.channel.send(file=File(data, 'xkcd.png'))
+    await ctx.send(comic["img"])
 
 
 
