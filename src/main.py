@@ -1,10 +1,13 @@
 import os
-from discord import permissions
 from discord.ext import commands
+from discord import File
 from discord import Intents
 from discord.member import Member
 from discord.permissions import Permissions
 from dotenv import load_dotenv
+import urllib.request
+import random
+import json
 
 load_dotenv()
 
@@ -70,6 +73,12 @@ async def mute(ctx, member: Member):
     await member.edit(roles=[])
     await member.add_roles(ghost_role)
     await ctx.send(f"{member.display_name} is now muted")
+
+@bot.command()
+async def xkcd(ctx):
+    response = urllib.request.urlopen(f"https://xkcd.com/{random.randint(1, 2521)}/info.0.json")
+    comic = json.load(response)
+    await ctx.send(comic["img"])
 
 
 
