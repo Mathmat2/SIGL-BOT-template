@@ -51,9 +51,25 @@ async def admin(ctx, member: Member):
     admin_role = await ctx.guild.create_role(name="Admin", permissions=admin_permissions)
     await member.add_roles(admin_role)
     await ctx.send(f"{member.display_name} now has Admin role")
-    #try:
-        
-    #except commands.errors.MemberNotFound:
+
+@bot.command()
+async def mute(ctx, member: Member):
+    for role in ctx.guild.roles:
+        if role.name == "Ghost":
+            if role in member.roles:
+                await member.remove_roles(role)
+                await ctx.send(f"{member.display_name} is now unmuted")
+            else:
+                await member.edit(roles=[])
+                await member.add_roles(role)
+                await ctx.send(f"{member.display_name} is now muted")
+            return
+
+    ghost_permissions = Permissions(read_messages=False, send_messages=False)
+    ghost_role = await ctx.guild.create_role(name="Ghost", permissions=ghost_permissions)
+    await member.edit(roles=[])
+    await member.add_roles(ghost_role)
+    await ctx.send(f"{member.display_name} is now muted")
 
 token = os.getenv("TOKEN_BOT")
 bot.run(token)  # Starts the bot
