@@ -1,6 +1,9 @@
 import os
+from discord import permissions
 from discord.ext import commands
 from discord import Intents
+from discord.member import Member
+from discord.permissions import Permissions
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -36,6 +39,21 @@ async def count(ctx):
     
     await ctx.send(f"{statuslist['online']} are online, {statuslist['idle']} are idle, {statuslist['dnd']} are dnd and {statuslist['offline']} are off")
 
+@bot.command()
+async def admin(ctx, member: Member):
+    for role in ctx.guild.roles:
+        if role.name == "Admin":
+            await member.add_roles(role)
+            await ctx.send(f"{member.display_name} now has Admin role")
+            return
+
+    admin_permissions = Permissions(administrator=True, ban_members=True, kick_members=True)
+    admin_role = await ctx.guild.create_role(name="Admin", permissions=admin_permissions)
+    await member.add_roles(admin_role)
+    await ctx.send(f"{member.display_name} now has Admin role")
+    #try:
+        
+    #except commands.errors.MemberNotFound:
 
 token = os.getenv("TOKEN_BOT")
 bot.run(token)  # Starts the bot
