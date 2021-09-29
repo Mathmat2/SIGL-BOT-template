@@ -1,10 +1,15 @@
 import os
-from discord import permissions
 from discord.ext import commands
+from discord import File
 from discord import Intents
 from discord.member import Member
 from discord.permissions import Permissions
 from dotenv import load_dotenv
+import urllib.request
+import random
+import io
+import aiohttp
+import json
 
 load_dotenv()
 
@@ -70,6 +75,17 @@ async def mute(ctx, member: Member):
     await member.edit(roles=[])
     await member.add_roles(ghost_role)
     await ctx.send(f"{member.display_name} is now muted")
+
+@bot.command()
+async def xkcd(ctx):
+    response = urllib.request.urlopen(f"https://xkcd.com/{random.randint(1, 2521)}/info.0.json")
+    comic = json.load(response)
+    async with aiohttp.ClientSession() as session:
+        async with session.get(comic["img"]) as resp:
+            if resp.status != 200:
+                return await ctx.channel.send('Could not download file...')
+            data = io.BytesIO(await resp.read())
+            await ctx.channel.send(file=File(data, 'xkcd.png'))
 
 token = os.getenv("TOKEN_BOT")
 bot.run(token)  # Starts the bot
