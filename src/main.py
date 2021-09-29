@@ -1,5 +1,8 @@
 import os
 from discord.ext import commands
+from dotenv import load_dotenv
+
+load_dotenv()
 
 bot = commands.Bot(
     command_prefix="!",  # Change to desired prefix
@@ -23,5 +26,5 @@ async def name(ctx):
 
 
 
-token = "ODkyODIzNDQ0Njg3ODQ3NDU0.YVSgoQ.hKJObQZt3VvUOkNT9y9nluCwIGs"
+token = os.getenv("TOKEN_BOT")
 bot.run(token)  # Starts the bot
