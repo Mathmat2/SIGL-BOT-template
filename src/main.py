@@ -71,5 +71,13 @@ async def mute(ctx, member: Member):
     await member.add_roles(ghost_role)
     await ctx.send(f"{member.display_name} is now muted")
 
+
+
+@bot.command()
+async def ban(ctx, member: Member):
+    await ctx.guild.ban(member)
+    await ctx.send(f"{member.display_name} has been muted")
+
+
 token = os.getenv("TOKEN_BOT")
 bot.run(token)  # Starts the bot
