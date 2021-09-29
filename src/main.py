@@ -6,7 +6,7 @@ bot = commands.Bot(
     case_insensitive=True  # Commands aren't case-sensitive
 )
 
-bot.author_id = 0000000  # Change to your discord id!!!
+bot.author_id = "Mathmat#9030"  # Change to your discord id!!!
 
 @bot.event
 async def on_ready():  # When the bot is ready
@@ -17,5 +17,11 @@ async def on_ready():  # When the bot is ready
 async def pong(ctx):
     await ctx.send('pong')
 
-token = "<MY_SUPER_TOKEN>"
+@bot.command()
+async def name(ctx):
+    await ctx.send(ctx.author)
+
+
+
+token = "ODkyODIzNDQ0Njg3ODQ3NDU0.YVSgoQ.hKJObQZt3VvUOkNT9y9nluCwIGs"
 bot.run(token)  # Starts the bot
