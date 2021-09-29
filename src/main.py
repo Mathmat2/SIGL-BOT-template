@@ -79,5 +79,9 @@ async def ban(ctx, member: Member):
     await ctx.send(f"{member.display_name} has been muted")
 
 
+@bot.command()
+async def poll(ctx, question, *options: str):
+    await ctx.send(f"@here \n Question :`{args[0]}`")
+
 token = os.getenv("TOKEN_BOT")
 bot.run(token)  # Starts the bot
